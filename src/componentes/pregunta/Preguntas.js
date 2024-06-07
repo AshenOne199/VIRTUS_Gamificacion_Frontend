@@ -55,10 +55,10 @@ function JuegoPreguntas({ activity, url }) {
         <div>
             {juego && (
                 <>
-                    <h2>{juego.titulo}</h2>
+                     <h2 className='activity-title'>{juego.titulo}</h2>
                     {juego.preguntas.map((pregunta, preguntaIndex) => (
                         <div key={preguntaIndex}>
-                            <h3>{pregunta.pregunta}</h3>
+                            <h3 class="styled-question">{pregunta.pregunta}</h3>
                             {pregunta.opciones.length === 0 ? (
                                 <input
                                     type="text"
@@ -67,50 +67,53 @@ function JuegoPreguntas({ activity, url }) {
                                         ...respuestasSeleccionadas,
                                         [preguntaIndex]: e.target.value
                                     })}
+                                    class="styled-input"
                                 />
                             ) : typeof pregunta.respuesta === 'string' ? (
                                 pregunta.opciones.map((opcion, opcionIndex) => (
-                                    <div key={opcionIndex}>
-                                        <input
-                                            type="radio"
-                                            id={`opcion-${preguntaIndex}-${opcionIndex}`}
-                                            name={`respuesta-${preguntaIndex}`}
-                                            value={opcion}
-                                            onChange={(e) => setRespuestasSeleccionadas({
-                                                ...respuestasSeleccionadas,
-                                                [preguntaIndex]: e.target.value
-                                            })}
-                                        />
-                                        <label htmlFor={`opcion-${preguntaIndex}-${opcionIndex}`}>{opcion}</label>
+                                    <div key={opcionIndex} className='radio-container'>
+                                    <input
+                                        type="radio"
+                                        id={`opcion-${preguntaIndex}-${opcionIndex}`}
+                                        name={`respuesta-${preguntaIndex}`}
+                                        value={opcion}
+                                        onChange={(e) => setRespuestasSeleccionadas({
+                                            ...respuestasSeleccionadas,
+                                            [preguntaIndex]: e.target.value
+                                        })}
+                                        className='radio-input'
+                                    />
+                                    <label htmlFor={`opcion-${preguntaIndex}-${opcionIndex}`} className='radio-label'>{opcion}</label>
                                     </div>
                                 ))
                             ) : (
                                 pregunta.opciones.map((opcion, opcionIndex) => (
-                                    <div key={opcionIndex}>
-                                        <input
-                                            type="checkbox"
-                                            id={`opcion-${preguntaIndex}-${opcionIndex}`}
-                                            name={`respuesta-${preguntaIndex}`}
-                                            value={opcion}
-                                            onChange={(e) => {
-                                                const checked = e.target.checked;
-                                                setRespuestasMultiplesSeleccionadas(prevState => {
-                                                    const prevAnswers = prevState[preguntaIndex] || [];
-                                                    if (checked) {
-                                                        return { ...prevState, [preguntaIndex]: [...prevAnswers, opcion] };
-                                                    } else {
-                                                        return { ...prevState, [preguntaIndex]: prevAnswers.filter(answer => answer !== opcion) };
-                                                    }
-                                                });
-                                            }}
-                                        />
-                                        <label htmlFor={`opcion-${preguntaIndex}-${opcionIndex}`}>{opcion}</label>
-                                    </div>
+                                    <div key={opcionIndex} className='checkbox-container'>
+            <input
+                type="checkbox"
+                id={`opcion-${preguntaIndex}-${opcionIndex}`}
+                name={`respuesta-${preguntaIndex}`}
+                value={opcion}
+                onChange={(e) => {
+                    const checked = e.target.checked;
+                    setRespuestasMultiplesSeleccionadas(prevState => {
+                        const prevAnswers = prevState[preguntaIndex] || [];
+                        if (checked) {
+                            return { ...prevState, [preguntaIndex]: [...prevAnswers, opcion] };
+                        } else {
+                            return { ...prevState, [preguntaIndex]: prevAnswers.filter(answer => answer !== opcion) };
+                        }
+                    });
+                }}
+                className='checkbox-input'
+            />
+            <label htmlFor={`opcion-${preguntaIndex}-${opcionIndex}`} className='checkbox-label'>{opcion}</label>
+        </div>
                                 ))
                             )}
                         </div>
                     ))}
-                    <button onClick={manejarRespuesta}>Enviar respuestas</button>
+                    <button class="styled-button" onClick={manejarRespuesta}>Enviar respuestas</button>
                 </>
             )}
         </div>
